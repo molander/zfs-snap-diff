@@ -31,6 +31,14 @@
         <tr ng-repeat="snap in snapshots" ng-click="snapshotSelected(snap)" zsd-scroll-to-top>
           <td>{{snap.Name}}</td>
           <td>{{snap.Creation}}</td>
+          <td>
+                <button type="button"
+                        class="btn btn-primary"
+                        id="restoreFile"
+                        ng-onclick="restoreFullSnapshot($event, snap)">
+                  <span class="glyphicon glyphicon-import"></span> Restore
+                </button>
+          </td>
         </tr>
       </table>
     </div>
