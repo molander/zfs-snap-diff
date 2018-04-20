@@ -23,14 +23,19 @@ angular.module('zsdSnapshots', []).
           scope.restoreSnapshot = function($event, snap) {
             $event.preventDefault();
             
-            alert("restored snapshot: " + snap.Name);
-            /*
-            Backend.restoreSnapshot($scope.pathInActual, $scope.curSnap.Name).then(function(res){
+
+            var r = confirm("Press a button!");
+          if (r == true) {
+            Backend.restoreSnapshot($scope.curSnap.Name).then(function(res){
               $rootScope.$broadcast('zsd:success', res);
               $scope.lastAction()
             });
-            */
-          };
+          }
+           
+          }.catch((err) => {
+            var string = JSON.stringify(err);
+            alert("Error occured: " + string);
+          });
   
         
         scope.toggleHideSnapshots = function(){
