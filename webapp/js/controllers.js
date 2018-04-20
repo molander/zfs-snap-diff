@@ -90,7 +90,7 @@ controller('BrowseActualCtrl', ['Backend', 'PathUtils', 'Config', 'Session', fun
 
 controller('BrowseSnapshotsCtrl', ['Backend', 'PathUtils', 'Session', function(Backend, PathUtils, Session){
   var self = this;
-
+  
   self.datasetSelected = function(dataset){
     self.curDataset = dataset;
     Session.set('curDataset', dataset);
@@ -105,7 +105,10 @@ controller('BrowseSnapshotsCtrl', ['Backend', 'PathUtils', 'Session', function(B
 
 
   self.snapshotSelected = function(snap){
-    if(typeof self.curSnap !== 'undefined'){
+    if(typeof self.curSnap === 'undefined'){
+      // first time
+      self.startEntries = [{Type: 'DIR', Path: snap.Path}];
+    }else{
       // use last path - update only root element
       self.startEntries = PathUtils.replaceRoot(self.entries, {Type: 'DIR', Path: snap.Path});
     }
