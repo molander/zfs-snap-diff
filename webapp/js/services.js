@@ -121,8 +121,8 @@ factory('Backend', ['$http', 'Config', function($http, Config){
         return res.data;
       });
     },
-    restoreSnapshot: function(path, snapName){
-      return $http.put('restore-snapshot', {'path': path, 'snapshot-name': snapName}).then(function(res){
+    restoreSnapshot: function(snapName){
+      return $http.put('restore-snapshot', {'snapshot-name': snapName}).then(function(res){
         return res.data;
       });
     },
