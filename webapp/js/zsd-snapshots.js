@@ -1,5 +1,5 @@
 angular.module('zsdSnapshots', []).
-  directive('zsdSnapshots', ['$location', '$anchorScroll', 'Backend', '$rootScope', '$mdDialog', function ($location, $anchorScroll, Backend, $rootScope, $mdDialog) {
+  directive('zsdSnapshots', ['$location', '$anchorScroll', 'Backend', '$rootScope', function ($location, $anchorScroll, Backend, $rootScope) {
     return {
       restrict: 'E',
       templateUrl: 'template-snapshots.html',
@@ -23,27 +23,18 @@ angular.module('zsdSnapshots', []).
         scope.restoreSnapshot = function ($event, snap) {
           $event.preventDefault();
 
-          $scope.showConfirm = function(ev) {
-            // Appending dialog to document.body to cover sidenav in docs app
-            var confirm = $mdDialog.confirm()
-                  .title('Would you Rollback' + snap.Name + '?')
-                  .textContent('Please confirm you would like to proceed')
-                  .ariaLabel('Snapshot Rollback')
-                  .targetEvent(ev)
-                  .ok('Rollback')
-                  .cancel('Cancel');
-        
-            $mdDialog.show(confirm).then(function() {
-              Backend.restoreSnapshot(scope.curSnap.Name).then(function (res) {
-                $rootScope.$broadcast('zsd:success', res);
-              });
-   
-            }, function() {
+
+          var r = confirm("Are you sure you'd like to rollback?  Push OK to proceed.");
+          if (r == true) {
+            Backend.restoreSnapshot(scope.curSnap.Name).then(function (res) {
+              rootScope.$broadcast('zsd:success', res);
+              scope.lastAction()
+            }).catch((err) => {
+              var error = JSON.stringify(err);
+              console.log("Error: " + error);
             });
-          };
-
-          
-
+  ;
+          }
 
         }
 
