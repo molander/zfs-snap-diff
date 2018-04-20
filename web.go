@@ -340,49 +340,23 @@ func restoreFileHndl(w http.ResponseWriter, r *http.Request) {
 
 func restoreSnapshotHndl(w http.ResponseWriter, r *http.Request) {
 	// parse / validate request parameter
-	params, paramsValid := parseParams(w, r, "path:string,snapshot-name:string")
+	params, paramsValid := parseParams(w, r, "snapshot-name:string")
 	if !paramsValid {
 		return
 	}
 
-	path := params["path"].(string)
-
-	// verify path
-	verifyPathIsUnderZMP(path, w, r)
-
 	// get parameter snapshot-name
 	snapName := params["snapshot-name"].(string)
 
-	// get file-handle for the actual file
-	actualFh, err := NewFileHandle(path)
-	if err == nil {
-		// move the actual file to the backup location if the file was found
-		if err := actualFh.MoveToBackup(); err != nil {
-			logError.Println(err.Error())
-			http.Error(w, "unable to restore: "+err.Error(), 500)
-			return
-		}
-	} else if err != nil && !os.IsNotExist(err) {
-		logError.Println(err.Error())
-		http.Error(w, "unable to restore - actual file not found: "+err.Error(), 400)
-		return
-	}
-
 	// get file-handle for the file from the snashot
-	snapFh, err := NewFileHandleInSnapshot(path, snapName)
+	snapReturnString, err := RollbackSnapshot(snapName)
 	if err != nil {
 		logError.Println(err.Error())
 		http.Error(w, "unable to restore - file from snapshot not found: "+err.Error(), 400)
 		return
 	}
 
-	// copy the file from the snapshot as the actual file
-	if err := snapFh.CopyAs(path); err != nil {
-		logError.Println(err.Error())
-		http.Error(w, "unable to restore: "+err.Error(), 500)
-	} else {
-		fmt.Fprintf(w, "file '%s' successful restored from snapshot: '%s'", path, snapName)
-	}
+	fmt.Fprintf(w, "successful rolled back snapshot: '%s', result: %s", snapName, snapReturnString)
 }
 
 func diffFileHndl(w http.ResponseWriter, r *http.Request) {

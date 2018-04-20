@@ -28,6 +28,11 @@ func NewFileHandle(path string) (*FileHandle, error) {
 }
 
 // NewFileHandleInSnapshot creates a new FileHandle from a file in the given snapshot
+func RollbackSnapshot(snapName string) (string, error) {
+	return zfs.execZFS("rollback", snapName)
+}
+
+// NewFileHandleInSnapshot creates a new FileHandle from a file in the given snapshot
 func NewFileHandleInSnapshot(path, snapName string) (*FileHandle, error) {
 	ds := zfs.FindDatasetForFile(path)
 	return newFileHandle(ds.ConvertToSnapPath(path, snapName))
