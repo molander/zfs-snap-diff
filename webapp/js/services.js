@@ -121,6 +121,11 @@ factory('Backend', ['$http', 'Config', function($http, Config){
         return res.data;
       });
     },
+    restoreSnapshot: function(path, snapName){
+      return $http.put('restore-snapshot', {'path': path, 'snapshot-name': snapName}).then(function(res){
+        return res.data;
+      });
+    },
 
     diffFile: function(path,snapName){
       return $http.get('/diff-file', {params: {path: path, 'snapshot-name': snapName, 'context-size': Config.get('diffContextSize')}}).then(function(res){
