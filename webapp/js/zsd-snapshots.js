@@ -1,5 +1,5 @@
 angular.module('zsdSnapshots', []).
-  directive('zsdSnapshots', ['$location', '$anchorScroll', '$rootScope', '$scope', 'Backend', function ($location, $anchorScroll, $rootScope, $scope, Backend) {
+  directive('zsdSnapshots', ['$location', '$anchorScroll', '$rootScope', '$scope', 'Backend'], function ($location, $anchorScroll, $rootScope, $scope, Backend) {
     return {
       restrict: 'E',
       templateUrl: 'template-snapshots.html',
