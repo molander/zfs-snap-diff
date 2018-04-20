@@ -1,5 +1,5 @@
 angular.module('zsdSnapshots', []).
-  directive('zsdSnapshots', ['$location', '$anchorScroll', '$rootScope', '$scope', 'Backend'], function ($location, $anchorScroll, $rootScope, $scope, Backend) {
+  directive('zsdSnapshots', ['$location', '$anchorScroll', 'Backend', '$rootScope', function ($location, $anchorScroll, Backend, $rootScope) {
     return {
       restrict: 'E',
       templateUrl: 'template-snapshots.html',
@@ -26,9 +26,8 @@ angular.module('zsdSnapshots', []).
 
           var r = confirm("Are you sure you'd like to rollback?  Push OK to proceed.");
           if (r == true) {
-            Backend.restoreSnapshot($scope.curSnap.Name).then(function (res) {
+            Backend.restoreSnapshot(scope.curSnap.Name).then(function (res) {
               $rootScope.$broadcast('zsd:success', res);
-              $scope.lastAction()
             }).catch((err) => {
               var string = JSON.stringify(err);
               alert("Error occured: " + string);
