@@ -9,8 +9,7 @@ angular.module('zsdSnapshots', []).
         onSnapshotSelected: '&'
       },
       link: function(scope, element, attrs){
-        scope.restoreFullSnapshot = function($event, snap) {
-          $event.preventDefault();
+        scope.restoreFullSnapshot = function($snap) {
           alert("howdy");
         };
 
