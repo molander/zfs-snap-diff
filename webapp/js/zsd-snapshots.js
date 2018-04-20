@@ -16,8 +16,14 @@ angular.module('zsdSnapshots', []).
 
         scope.snapshotSelected = function(snap){
           //scope.hideSnapshots = true;
+
+          if( scope.curSnap !== undefined && scope.curSnap.Name === snap.Name) {
+            snap = undefined;
+          } 
+
           scope.curSnap = snap;
           scope.onSnapshotSelected({snap: snap});
+          
         };
         
         scope.toggleHideSnapshots = function(){
