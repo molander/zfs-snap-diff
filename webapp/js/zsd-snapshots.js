@@ -26,12 +26,12 @@ angular.module('zsdSnapshots', []).
 
           var r = confirm("Are you sure you'd like to rollback?  Push OK to proceed.");
           if (r == true) {
-            Backend.restoreSnapshot(scope.curSnap.Name).then(function (res) {
-              rootScope.$broadcast('zsd:success', res);
+            var splitNames = snap.path.split("/");
+            var poolName = splitNames[1];
+            var snapShotFullName = poolName + "#" + snap.Name;
+            Backend.restoreSnapshot(snapShotFullName).then(function (res) {
+              $rootScope.$broadcast('zsd:success', res);
               scope.lastAction()
-            }).catch((err) => {
-              var error = JSON.stringify(err);
-              console.log("Error: " + error);
             });
   ;
           }
