@@ -90,6 +90,7 @@ controller('BrowseActualCtrl', ['Backend', 'PathUtils', 'Config', 'Session', fun
 
 controller('BrowseSnapshotsCtrl', ['Backend', 'PathUtils', 'Session', function(Backend, PathUtils, Session){
   var self = this;
+  self.showMe = true;
 
   self.datasetSelected = function(dataset){
     self.curDataset = dataset;
