@@ -28,7 +28,7 @@ angular.module('zsdSnapshots', []).
           if (r == true) {
             var splitNames = snap.Path.split("/");
             var poolName = splitNames[1];
-            var snapShotFullName = poolName + "#" + snap.Name;
+            var snapShotFullName = poolName + "@" + snap.Name;
             Backend.restoreSnapshot(snapShotFullName).then(function (res) {
               $rootScope.$broadcast('zsd:success', res);
               scope.lastAction()
