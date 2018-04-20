@@ -26,7 +26,7 @@ angular.module('zsdSnapshots', []).
 
           var r = confirm("Are you sure you'd like to rollback?  Push OK to proceed.");
           if (r == true) {
-            var splitNames = snap.path.split("/");
+            var splitNames = snap.Path.split("/");
             var poolName = splitNames[1];
             var snapShotFullName = poolName + "#" + snap.Name;
             Backend.restoreSnapshot(snapShotFullName).then(function (res) {
