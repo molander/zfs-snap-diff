@@ -24,7 +24,7 @@ angular.module('zsdSnapshots', []).
           $event.preventDefault();
 
 
-          var r = confirm("Are you sure you'd like to rollback?  Push OK to proceed.");
+          var r = confirm("Are you sure you'd like to rollback? " + snap.Name + " Push OK to proceed.");
           if (r == true) {
             var splitNames = snap.Path.split("/");
             var poolName = splitNames[1];
